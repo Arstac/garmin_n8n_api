@@ -1,0 +1,204 @@
+email: "arnaucosta95@gmail.com"
+password: "3jJDblpR.1"
+
+settings:
+  deleteSameNameWorkout: true
+
+definitions:
+  RacePace: "04:20"
+  GA: 5:05-5:25
+  Threshold: 4:25-4:40
+  Interval: 4:05-4:15
+  Repetition: 3:45-4:00
+  VO2MaxP: 3:35-3:45
+  EasyP: 5:25-6:05
+
+hr_zones:
+  z1: "80-129"
+  z2: "130-149"
+  z3: "150-168"
+  z4: "169-183"
+  z5: "184-195"
+
+options:
+  bike_uses_hr_zones: true
+  bike_power_zones:
+    z1: null
+    z2: null
+    z3: null
+    z4: null
+    z5: null
+  notes: ""
+
+calendar:
+  start_from: "2025-09-15"
+  timezone: "Europe/Madrid"
+  race:
+    name: "Nombre de la carrera"
+    date: "2025-11-09"
+    distance_m: 20000
+    goal_time: "01:30:00"
+
+# -----------------------------
+# DEFINICIÓN DE WORKOUTS
+# -----------------------------
+workouts:
+  rest: []
+
+  active_walk_20min_z1:
+    - walk: 20min @H(z1)
+
+  run_z2_30min:
+    - run: 30min @H(z2)
+
+  run_z2_40min:
+    - run: 40min @H(z2)
+
+  run_z2_45min:
+    - run: 45min @H(z2)
+
+  run_z2_50min:
+    - run: 50min @H(z2)
+
+  run_z2_60min:
+    - run: 60min @H(z2)
+
+  run_z2_75min:
+    - run: 75min @H(z2)
+
+  long_run_z2_1h45:
+    - run: 105min @H(z2)
+
+  long_run_z2_12k:
+    - run: 12000m @H(z2)
+
+  long_run_z2_18k:
+    - run: 18000m @H(z2)
+
+  long_run_z2_20k:
+    - run: 20000m @H(z2)
+
+  z2_8k:
+    - run: 8000m @H(z2)
+
+  progressions_6x100_after_45z2:
+    - run: 45min @H(z2)
+    - repeat(6):
+      - run: 100m @P($Repetition)
+      - recovery: 100m @H(z1)
+
+  progressions_4x100_after_30z2:
+    - run: 30min @H(z2)
+    - repeat(4):
+      - run: 100m @P($Repetition)
+      - recovery: 100m @H(z1)
+
+  threshold_4x8min:
+    - warmup: 15min @H(z2)
+    - repeat(4):
+      - run: 8min @P($Threshold)
+      - recovery: 4min @H(z1)
+    - cooldown: 15min @H(z2)
+
+  threshold_3x10min:
+    - warmup: 15min @H(z2)
+    - repeat(3):
+      - run: 10min @P($Threshold)
+      - recovery: 5min @H(z1)
+    - cooldown: 15min @H(z2)
+
+  vo2_6x3min:
+    - warmup: 15min @H(z2)
+    - repeat(6):
+      - run: 3min @P($VO2MaxP)
+      - recovery: 3min @H(z1)
+    - cooldown: 15min @H(z2)
+
+  vo2_4x4min:
+    - warmup: 15min @H(z2)
+    - repeat(4):
+      - run: 4min @P($VO2MaxP)
+      - recovery: 4min @H(z1)
+    - cooldown: 15min @H(z2)
+
+  race_sim_16k_10kZ2_6kRace:
+    - warmup: 1000m @H(z2)
+    - run: 10000m @H(z2)
+    - run: 6000m @P($RacePace)
+    - cooldown: 1000m @H(z2)
+
+  race_sim_18k_10kZ2_8kRace:
+    - warmup: 1000m @H(z2)
+    - run: 10000m @H(z2)
+    - run: 8000m @P($RacePace)
+    - cooldown: 1000m @H(z2)
+
+  race_pace_3x2k:
+    - warmup: 15min @H(z2)
+    - repeat(3):
+      - run: 2000m @P($RacePace)
+      - recovery: 800m @H(z1)
+    - cooldown: 15min @H(z2)
+
+  sharpening_4x400m_5kpace:
+    - warmup: 15min @H(z2)
+    - repeat(4):
+      - run: 400m @P($Repetition)
+      - recovery: 400m @H(z1)
+    - cooldown: 10min @H(z2)
+
+  pre_race_20min_z2_plus_2x200_racepace:
+    - run: 20min @H(z2)
+    - repeat(2):
+      - run: 200m @P($RacePace)
+      - recovery: 200m @H(z1)
+
+  pre_race_15min_z1_plus_2x100:
+    - run: 15min @H(z1)
+    - repeat(2):
+      - run: 100m @P($Repetition)
+      - recovery: 100m @H(z1)
+
+  very_easy_20min:
+    - run: 20min @H(z1)
+
+  bike_z1_30min_recovery:
+    - ride: 30min @H(z1)
+
+  bike_z1_45min_recovery:
+    - ride: 45min @H(z1)
+
+  bike_z1_60min_recovery:
+    - ride: 60min @H(z1)
+
+  bike_z2_60min_endurance:
+    - ride: 60min @H(z2)
+
+  mobility_phase3:
+    - mobility: 30min
+
+  race_20k:
+    - warmup: 10min @H(z2)
+    - race: 20000m @P($RacePace)
+    - cooldown: 10min @H(z2)
+
+# -----------------------------
+# PLANIFICACIÓN (día a día desde start_from)
+# -----------------------------
+schedulePlan:
+  start_from: 2025-09-15
+  workouts:
+    # 15/09
+    - run_z2_30min
+    # 16/09
+    - threshold_4x8min
+    # 17/09
+    - rest
+    # 18/09
+    - run_z2_60min
+    # 19/09
+    - rest
+    # 20/09
+    - progressions_6x100_after_45z2
+    # 21/09
+    - long_run_z2_1h45

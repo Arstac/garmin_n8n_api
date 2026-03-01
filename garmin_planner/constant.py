@@ -12,6 +12,12 @@ class SportType(Enum):
       "sportTypeKey": "running",
       "displayOrder": 1
     }
+    
+    CYCLING = {
+        "sportTypeId": 2,
+        "sportTypeKey": "cycling",
+        "displayOrder": 2
+    }
 
     def to_dict(self):
         return self.value
@@ -95,6 +101,18 @@ class TargetType(Enum):
         "workoutTargetTypeKey": "no.target",
         "displayOrder": 1
     }
+    POWER = {
+        "workoutTargetTypeId": 2,
+        "workoutTargetTypeKey": "power.zone",
+        "displayOrder": 2
+    }
+    
+    CADENCE = {
+                "workoutTargetTypeId": 3,
+                "workoutTargetTypeKey": "cadence",
+                "displayOrder": 3
+    }
+    
     # This need targetValueOne, Two
     PACE = {
         "workoutTargetTypeId": 6,

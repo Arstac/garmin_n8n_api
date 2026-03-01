@@ -101,6 +101,34 @@ def parse_stepdetail(string):
                         'zoneNumber': rateZone
                     })
                     continue
+                
+                if (target.upper() == "@C"):
+                    cadenceZone = int(value)
+                    stepDetails.update({
+                        'targetType': TargetType.CADENCE,
+                        'zoneNumber': cadenceZone
+                    })
+                    continue
+                
+                ## Power: acepta tanto min-max como solo zona, siempre con @W
+                if (target.upper() == "@W"):
+                    if "-" in value:
+                        floor, top = value.split("-")
+                        powerMin = int(floor)
+                        powerMax = int(top)
+                        stepDetails.update({
+                            'targetType': TargetType.POWER,
+                            'targetValueOne': powerMin,
+                            'targetValueTwo': powerMax
+                        })
+                    else:
+                        value = value.lower().replace("z", "")
+                        powerZone = int(value)
+                        stepDetails.update({
+                            'targetType': TargetType.POWER,
+                            'zoneNumber': powerZone
+                        })
+                    continue
 
         except Exception as e:
             logger.error(e)

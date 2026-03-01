@@ -58,6 +58,9 @@ docs/_build/
 # PyBuilder
 target/
 
-# session
-.garth/oauth1_token.json
-.garth/oauth2_token.json
+# session & secrets
+.garth/
+.env
+secrets.yaml
+garmin_planner/secrets.yaml
+data/

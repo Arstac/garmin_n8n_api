@@ -42,7 +42,9 @@ def createWorkoutStep(step: dict, stepCount: list):
         parsedStep, numIteration = parse_bracket(stepName)
         match parsedStep:
             case "run":
-                stepType = StepType.WARMUP
+                stepType = StepType.INTERVAL
+            case "bike":
+                stepType = StepType.INTERVAL
             case "warmup":
                 stepType = StepType.WARMUP
             case "cooldown":
@@ -68,9 +70,12 @@ def createWorkoutStep(step: dict, stepCount: list):
     return WorkoutStep(stepId=order, stepOrder=order, stepType=stepType, **parsedStepDetailDict)
 
 
-def createWorkoutJson(workoutName: str, steps: list):
+def createWorkoutJson(workoutName: str, steps: list, sporttype: str):
     stepCount = [0]
-    sport_type = SportType.RUNNING
+    if sporttype == "bike":
+        sport_type = SportType.CYCLING
+    else:
+        sport_type = SportType.RUNNING
     # distance_unit = DistanceUnit.KILOMETER
 
     workoutSteps = createWorkoutList(steps, stepCount)
@@ -96,7 +101,7 @@ def createWorkoutJson(workoutName: str, steps: list):
 
     return json.dumps(workout_model, default=serialize)
 
-def importWorkouts(workouts: dict, toDeletePrevious: bool, conn: Client):
+def importWorkouts(workouts: dict, toDeletePrevious: bool, conn: Client, sport_type: str):
     # delete previous workout with the same workout name
     allWorkouts = []
     if toDeletePrevious:
@@ -109,10 +114,10 @@ def importWorkouts(workouts: dict, toDeletePrevious: bool, conn: Client):
                 conn.deleteWorkout(toDelete)
 
         steps = workouts[name]
-        jsonData = createWorkoutJson(name, steps)
+        jsonData = createWorkoutJson(name, steps, sport_type)
         conn.importWorkout(jsonData)
 
-def scheduleWorkouts(startfrom: datetime, workouts: dict, conn: Client):
+def scheduleWorkouts(startfrom, workouts, conn: Client):
     # Check valid date
     isValidDate = isinstance(startfrom, datetime.date)
     if (not isValidDate):
@@ -184,11 +189,21 @@ def main():
     if "definitions" in data:
         definitionsDict = data['definitions']
         data = replace_variables(data, definitionsDict)
-    if "workouts" in data:
-        workouts = data['workouts']
-        importWorkouts(workouts=workouts, 
+        
+    if "bike-workouts" in data:
+        bike_workouts = data['bike-workouts']
+        importWorkouts(workouts=bike_workouts, 
                        toDeletePrevious=settings['deleteSameNameWorkout'], 
-                       conn=garminCon)
+                       conn=garminCon,
+                       sport_type = "bike")
+        
+    if "run-workouts" in data:
+        run_workouts = data['run-workouts']
+        importWorkouts(workouts=run_workouts, 
+                       toDeletePrevious=settings['deleteSameNameWorkout'], 
+                       conn=garminCon,
+                       sport_type = "run")
+        
     if "schedulePlan" in data:
         schedulePlan = data['schedulePlan']
         startDate = schedulePlan['start_from']
@@ -196,3 +211,6 @@ def main():
         scheduleWorkouts(startDate, workouts, garminCon)
 
     logger.info("Finished processing yaml file")
+    
+
+# demo of recibing a yaml file path as input and 
